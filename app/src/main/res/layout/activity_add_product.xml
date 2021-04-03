@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".AddProductActivity">
+
+    <EditText
+        android:id="@+id/et_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Product Title"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Enter Product Description"
+        android:maxLines="3"
+        app:layout_constraintTop_toBottomOf="@id/et_title" />
+
+    <EditText
+        android:id="@+id/et_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Enter Product Price"
+        android:inputType="numberDecimal"
+        app:layout_constraintTop_toBottomOf="@id/et_description" />
+
+    <EditText
+        android:id="@+id/et_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="enter quantity"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_price" />
+
+    <RadioGroup
+        android:checkedButton="@id/rb_clothes"
+        android:id="@+id/rg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/et_quantity">
+
+        <RadioButton
+            android:id="@+id/rb_clothes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clothes" />
+
+        <RadioButton
+            android:id="@+id/rb_electronics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Electronics" />
+
+        <RadioButton
+            android:id="@+id/rb_furniture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Furniture" />
+
+    </RadioGroup>
+
+    <ImageButton
+        android:id="@+id/ib_product"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_marginTop="16dp"
+        android:onClick="choosePicture"
+        android:src="@drawable/ic_insert_photo"
+        app:layout_constraintStart_toStartOf="@id/et_quantity"
+        app:layout_constraintTop_toBottomOf="@id/et_quantity" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:onClick="addProduct"
+        android:text="add product"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ib_product" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

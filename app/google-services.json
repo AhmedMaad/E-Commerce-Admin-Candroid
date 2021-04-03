@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1027433336672",
+    "project_id": "e-commerce-test-8299d",
+    "storage_bucket": "e-commerce-test-8299d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1027433336672:android:439105dab5973e79be1805",
+        "android_client_info": {
+          "package_name": "com.maad.buyfromcandroidadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1027433336672-8d73lh4aj7a0468rsobku4s98musmsa8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSqtqOzGrwnCBdUW9ZXJC9IzKvXA3PFIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1027433336672-8d73lh4aj7a0468rsobku4s98musmsa8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
