@@ -3,6 +3,7 @@ package com.maad.buyfromcandroidadmin;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,7 +22,7 @@ import java.util.Map;
 public class HomeActivity extends AppCompatActivity {
 
     private HomeActivityViewModel viewModel;
-    private ArrayList<ProductModel> productModels = new ArrayList<>();
+    //private ArrayList<ProductModel> productModels = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,33 +30,29 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         viewModel = new ViewModelProvider(this).get(HomeActivityViewModel.class);
-        viewModel.getProducts().observe(this, new Observer<List<DocumentChange>>() {
+        viewModel.getProductsLiveData().observe(this, new Observer<List<DocumentChange>>() {
             @Override
             public void onChanged(List<DocumentChange> documentChanges) {
                 Log.d("trace", "Observing");
+                //viewModel.getProductModels().clear();
 
-                for (int i = 0;i<documentChanges.size();++i)
-                    Log.d("trace", "Products: " + documentChanges.get(i).getDocument());
+                if (viewModel.isNewDataArrived()){
+                    for (int i = 0; i < documentChanges.size(); ++i) {
+                        //Log.d("trace", "Products: " + documentChanges.get(i).getDocument());
+                        QueryDocumentSnapshot snapshot = documentChanges.get(i).getDocument();
+                        ProductModel productModel = snapshot.toObject(ProductModel.class);
+                        //productModels.add(productModel);
+                        viewModel.addProduct(productModel);
+                    }
+                    viewModel.setNewDataArrived(false);
+                }
+                ProductAdapter adapter = new ProductAdapter(HomeActivity.this, viewModel.getProductModels());
+                RecyclerView recyclerView = findViewById(R.id.rv);
+                recyclerView.setAdapter(adapter);
 
-                /*for (QueryDocumentSnapshot document : querySnapshotTask.getResult()) {
-                    Log.d("trace", "Products: " + document.getData());
-                    Map<String, Object> data = document.getData();
-                    productModels.add(
-                            new ProductModel(
-                                    data.get("title").toString()
-                                    , data.get("description").toString()
-                                    , Double.valueOf(data.get("price").toString())
-                                    , Integer.valueOf(data.get("quantity").toString())
-                                    , data.get("category").toString()
-                                    , data.get("image").toString()
-                            )
-                    );
-                }*/
+
             }
         });
-
-        for (int i = 0;i<productModels.size();++i)
-            Log.d("trace", productModels.get(i).getTitle());
 
     }
 

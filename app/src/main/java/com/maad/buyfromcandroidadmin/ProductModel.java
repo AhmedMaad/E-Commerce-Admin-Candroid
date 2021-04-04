@@ -9,6 +9,9 @@ public class ProductModel {
     private String category;
     private String image;
 
+    //Required Empty Constructor
+    public ProductModel(){}
+
     public ProductModel(String title, String description, double price
             , int quantity, String category, String image) {
         this.title = title;

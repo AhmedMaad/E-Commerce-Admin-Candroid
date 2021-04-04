@@ -123,23 +123,20 @@ public class AddProductActivity extends AppCompatActivity {
         String price = priceET.getText().toString();
         String quantity = quantityET.getText().toString();
 
+        //https://firebase.google.com/docs/firestore/manage-data/add-data?authuser=0#custom_objects
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        Map<String, Object> product = new HashMap<>();
-        product.put("title", title);
-        product.put("description", desc);
-        product.put("price", Double.valueOf(price));
-        product.put("quantity", Integer.valueOf(quantity));
-        product.put("category", category);
-        product.put("image", imageUri.toString());
-
+        ProductModel productModel
+                = new ProductModel(title, desc, Double.valueOf(price)
+                , Integer.valueOf(quantity), category, imageUri.toString());
         db
                 .collection("products")
-                .add(product)
+                .add(productModel)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Toast.makeText(AddProductActivity.this, "Product Added", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 });
     }
