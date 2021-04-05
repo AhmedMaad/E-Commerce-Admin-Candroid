@@ -8,8 +8,9 @@ public class ProductModel {
     private int quantity;
     private String category;
     private String image;
+    private String id;
 
-    //Required Empty Constructor
+    //Required Empty Constructor for reading
     public ProductModel(){}
 
     public ProductModel(String title, String description, double price
@@ -44,5 +45,9 @@ public class ProductModel {
 
     public String getImage() {
         return image;
+    }
+
+    public String getId() {
+        return id;
     }
 }

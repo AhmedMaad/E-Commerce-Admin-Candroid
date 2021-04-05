@@ -126,15 +126,23 @@ public class AddProductActivity extends AppCompatActivity {
         //https://firebase.google.com/docs/firestore/manage-data/add-data?authuser=0#custom_objects
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        ProductModel productModel
+        /*ProductModel productModel
                 = new ProductModel(title, desc, Double.valueOf(price)
-                , Integer.valueOf(quantity), category, imageUri.toString());
+                , Integer.valueOf(quantity), category, imageUri.toString());*/
+
+        //TODO: This is just for debugging you should use the above statement in production
+        ProductModel productModel
+                = new ProductModel(title, "desc", 2.5
+                , 100, "x", imageUri.toString());
+
         db
                 .collection("products")
                 .add(productModel)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
+                        //Updating id to make delete and update functionality later
+                        documentReference.update("id", documentReference.getId());
                         Toast.makeText(AddProductActivity.this, "Product Added", Toast.LENGTH_SHORT).show();
                         finish();
                     }

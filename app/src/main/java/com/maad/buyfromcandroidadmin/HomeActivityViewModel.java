@@ -10,10 +10,12 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -24,12 +26,15 @@ import java.util.List;
 
 public class HomeActivityViewModel extends ViewModel {
 
-    private MutableLiveData<List<DocumentChange>> productsLiveData;
+    //private MutableLiveData<List<DocumentChange>> productsLiveData;
+    private MutableLiveData<List<DocumentSnapshot>> productz;
     private ArrayList<ProductModel> productModels;
     private boolean isNewDataArrived;
+    private FirebaseFirestore db;
 
     public HomeActivityViewModel() {
-        if (productModels == null)
+        db = FirebaseFirestore.getInstance();
+        //if (productModels == null)
             productModels = new ArrayList<>();
     }
 
@@ -42,18 +47,27 @@ public class HomeActivityViewModel extends ViewModel {
         productModels.add(product);
     }
 
-    public LiveData<List<DocumentChange>> getProductsLiveData() {
+    /*public LiveData<List<DocumentChange>> getProductsLiveData() {
         if (productsLiveData == null) {
             Log.d("trace", "Making instance from mutable live data");
             productsLiveData = new MutableLiveData<>();
             loadProducts();
         }
         return productsLiveData;
+    }*/
+
+    public LiveData<List<DocumentSnapshot>> getProductZ() {
+        if (productz == null) {
+            Log.d("trace", "Making instance from mutable live data");
+            productz = new MutableLiveData<>();
+            loadProducts();
+        }
+        return productz;
     }
 
 
     private void loadProducts() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        //FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collection = db.collection("products");
         collection.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -61,9 +75,14 @@ public class HomeActivityViewModel extends ViewModel {
                     , @Nullable FirebaseFirestoreException error) {
                 if (value != null) {
                     Log.d("trace", "Data arrived from firebase");
-                    List<DocumentChange> documentChanges = value.getDocumentChanges();
+                    //List<DocumentChange> documentChanges = value.getDocumentChanges();
+
                     isNewDataArrived = true;
-                    productsLiveData.setValue(documentChanges);
+                    List<DocumentSnapshot> documentSnapshots = value.getDocuments();
+                    productz.setValue(documentSnapshots);
+
+
+                    //productsLiveData.setValue(documentChanges);
                 }
             }
         });
@@ -77,5 +96,12 @@ public class HomeActivityViewModel extends ViewModel {
         isNewDataArrived = newDataArrived;
     }
 
+    public void deleteProduct(String id){
+        db
+                .collection("products")
+                .document(id)
+                .delete();
+
+    }
 
 }
