@@ -72,15 +72,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         public ImageView productIV;
         public TextView productTV;
-        public MaterialCardView cardView;
+        //public MaterialCardView cardView;
         public ImageView deleteIV;
 
         public ProductViewHolder(@NonNull View itemView, OnItemClickListener clickListener
                 , OnDeleteItemClickListener deleteItemClickListener) {
             super(itemView);
-            productIV = itemView.findViewById(R.id.iv);
+            productIV = itemView.findViewById(R.id.iv_product);
             productTV = itemView.findViewById(R.id.tv);
-            cardView = itemView.findViewById(R.id.parent);
+            //cardView = itemView.findViewById(R.id.parent);
             deleteIV = itemView.findViewById(R.id.iv_delete);
 
             itemView.setOnClickListener(v -> {
@@ -88,9 +88,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 clickListener.onItemClick(position);
             });
 
-            deleteIV.setOnClickListener(v -> {
-                int position = getAdapterPosition();
-                deleteItemClickListener.onDeleteItemClick(position);
+            deleteIV.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    int position = getAdapterPosition();
+                    deleteItemClickListener.onDeleteItemClick(position);
+                    return true;
+                }
             });
 
         }

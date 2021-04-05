@@ -47,7 +47,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });*/
 
-        viewModel.getProductZ().observe(this, new Observer<List<DocumentSnapshot>>() {
+        viewModel.getProductsLiveData().observe(this, new Observer<List<DocumentSnapshot>>() {
             @Override
             public void onChanged(List<DocumentSnapshot> documentSnapshots) {
                 if (viewModel.isNewDataArrived()) {

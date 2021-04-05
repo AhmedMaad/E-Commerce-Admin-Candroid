@@ -27,7 +27,7 @@ import java.util.List;
 public class HomeActivityViewModel extends ViewModel {
 
     //private MutableLiveData<List<DocumentChange>> productsLiveData;
-    private MutableLiveData<List<DocumentSnapshot>> productz;
+    private MutableLiveData<List<DocumentSnapshot>> productsLiveData;
     private ArrayList<ProductModel> productModels;
     private boolean isNewDataArrived;
     private FirebaseFirestore db;
@@ -56,13 +56,13 @@ public class HomeActivityViewModel extends ViewModel {
         return productsLiveData;
     }*/
 
-    public LiveData<List<DocumentSnapshot>> getProductZ() {
-        if (productz == null) {
+    public LiveData<List<DocumentSnapshot>> getProductsLiveData() {
+        if (productsLiveData == null) {
             Log.d("trace", "Making instance from mutable live data");
-            productz = new MutableLiveData<>();
+            productsLiveData = new MutableLiveData<>();
             loadProducts();
         }
-        return productz;
+        return productsLiveData;
     }
 
 
@@ -79,7 +79,7 @@ public class HomeActivityViewModel extends ViewModel {
 
                     isNewDataArrived = true;
                     List<DocumentSnapshot> documentSnapshots = value.getDocuments();
-                    productz.setValue(documentSnapshots);
+                    productsLiveData.setValue(documentSnapshots);
 
 
                     //productsLiveData.setValue(documentChanges);
