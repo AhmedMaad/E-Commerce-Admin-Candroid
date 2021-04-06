@@ -24,7 +24,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeActivityViewModel extends ViewModel {
+public class HomeViewModel extends ViewModel {
 
     //private MutableLiveData<List<DocumentChange>> productsLiveData;
     private MutableLiveData<List<DocumentSnapshot>> productsLiveData;
@@ -32,7 +32,7 @@ public class HomeActivityViewModel extends ViewModel {
     private boolean isNewDataArrived;
     private FirebaseFirestore db;
 
-    public HomeActivityViewModel() {
+    public HomeViewModel() {
         db = FirebaseFirestore.getInstance();
         //if (productModels == null)
             productModels = new ArrayList<>();

@@ -9,8 +9,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -30,11 +32,15 @@ public class AddProductActivity extends AppCompatActivity {
 
     private String category;
     private Uri imageUri;
+    private ProgressBar progressBar;
+    private Button uploadBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
+        progressBar = findViewById(R.id.progress_bar);
+        uploadBtn = findViewById(R.id.btn_upload);
 
         RadioGroup radioGroup = findViewById(R.id.rg);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -75,6 +81,8 @@ public class AddProductActivity extends AppCompatActivity {
     }
 
     public void addProduct(View view) {
+        progressBar.setVisibility(View.VISIBLE);
+        uploadBtn.setVisibility(View.INVISIBLE);
         uploadImage();
     }
 

@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Buy From Candroid Admin</string>
     <string name="delete">delete</string>
+    <string name="enter_product_title">Enter Product Title</string>
+    <string name="enter_product_price">Enter Price</string>
+    <string name="enter_quantity">Enter Quantity</string>
+    <string name="enter_product_description">Enter Product Description</string>
 </resources>

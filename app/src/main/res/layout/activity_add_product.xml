@@ -1,93 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".AddProductActivity">
+    android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/et_title"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter Product Title"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        android:elevation="16dp"
+        app:cardCornerRadius="24dp">
 
-    <EditText
-        android:id="@+id/et_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="Enter Product Description"
-        android:maxLines="3"
-        app:layout_constraintTop_toBottomOf="@id/et_title" />
-
-    <EditText
-        android:id="@+id/et_price"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="Enter Product Price"
-        android:inputType="numberDecimal"
-        app:layout_constraintTop_toBottomOf="@id/et_description" />
-
-    <EditText
-        android:id="@+id/et_quantity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="enter quantity"
-        android:inputType="number"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_price" />
-
-    <RadioGroup
-        android:checkedButton="@id/rb_clothes"
-        android:id="@+id/rg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/et_quantity">
-
-        <RadioButton
-            android:id="@+id/rb_clothes"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:padding="16dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Clothes" />
+            tools:context=".AddProductActivity">
 
-        <RadioButton
-            android:id="@+id/rb_electronics"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Electronics" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/container_title"
+                style="@style/Widget.Design.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_product_title"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <RadioButton
-            android:id="@+id/rb_furniture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Furniture" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
-    </RadioGroup>
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <ImageButton
-        android:id="@+id/ib_product"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_marginTop="16dp"
-        android:onClick="choosePicture"
-        android:src="@drawable/ic_insert_photo"
-        app:layout_constraintStart_toStartOf="@id/et_quantity"
-        app:layout_constraintTop_toBottomOf="@id/et_quantity" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/container_description"
+                style="@style/Widget.Design.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_product_description"
+                app:layout_constraintTop_toBottomOf="@id/container_title">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:onClick="addProduct"
-        android:text="add product"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ib_product" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="top"
+                    android:minLines="3" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/container_price"
+                style="@style/Widget.Design.TextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_product_price"
+                app:layout_constraintEnd_toStartOf="@id/container_quantity"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/container_description">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="16dp"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/container_quantity"
+                style="@style/Widget.Design.TextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_quantity"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/container_price"
+                app:layout_constraintTop_toTopOf="@id/container_price">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_quantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="16dp"
+                    android:inputType="number" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <RadioGroup
+                android:id="@+id/rg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkedButton="@id/rb_clothes"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/container_quantity">
+
+                <RadioButton
+                    android:id="@+id/rb_clothes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="Clothes" />
+
+                <RadioButton
+                    android:id="@+id/rb_electronics"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="Electronics" />
+
+                <RadioButton
+                    android:id="@+id/rb_furniture"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Furniture" />
+
+            </RadioGroup>
+
+            <ImageButton
+                android:id="@+id/ib_product"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_marginTop="8dp"
+                android:onClick="choosePicture"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_insert_photo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/rg" />
+
+            <Button
+                android:id="@+id/btn_upload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:onClick="addProduct"
+                android:text="add product"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ib_product" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ib_product" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</ScrollView>

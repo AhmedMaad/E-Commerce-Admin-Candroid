@@ -1,6 +1,5 @@
 package com.maad.buyfromcandroidadmin;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -9,26 +8,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.card.MaterialCardView;
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firestore.v1.TargetOrBuilder;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private HomeActivityViewModel viewModel;
+    private HomeViewModel viewModel;
     private ProductAdapter adapter;
     private RecyclerView recyclerView;
 
@@ -38,7 +27,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         recyclerView = findViewById(R.id.rv);
 
-        viewModel = new ViewModelProvider(this).get(HomeActivityViewModel.class);
+        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         /*viewModel.getProductsLiveData().observe(this, new Observer<List<DocumentChange>>() {
             @Override
             public void onChanged(List<DocumentChange> documentChanges) {
