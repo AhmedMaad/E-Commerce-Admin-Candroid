@@ -54,19 +54,18 @@ public class EditProductActivity extends AppCompatActivity {
         productIB = findViewById(R.id.ib_product);
         progressBar = findViewById(R.id.progress_bar);
 
+        product = getIntent().getParcelableExtra("product");
+
         if (savedInstanceState != null) {
             progressBar.setVisibility(savedInstanceState.getInt("pbVisibility"));
             editBtn.setVisibility(savedInstanceState.getInt("btnVisibility"));
-            if (imageUri != null) {
-                imageUri = savedInstanceState.getParcelable("image");
-                productIB.setImageURI(imageUri);
-            }
+            imageUri = savedInstanceState.getParcelable("image");
+            productIB.setImageURI(imageUri);
         } else
             Glide.with(this).load(product.getImage()).into(productIB);
-
+        
 
         editBtn.setText(R.string.edit_product);
-        product = getIntent().getParcelableExtra("product");
         id = product.getId();
         titleET.setText(product.getTitle());
         descET.setText(product.getDescription());
