@@ -13,24 +13,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class AddProductActivity extends AppCompatActivity {
 
-    private String category;
     private Uri imageUri;
     private ProgressBar progressBar;
     private Button uploadBtn;
@@ -42,25 +36,10 @@ public class AddProductActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_bar);
         uploadBtn = findViewById(R.id.btn_upload);
 
-        RadioGroup radioGroup = findViewById(R.id.rg);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.rb_clothes:
-                        category = "Clothes";
-                        break;
-
-                    case R.id.rb_electronics:
-                        category = "Electronics";
-                        break;
-
-                    case R.id.rb_furniture:
-                        category = "Furniture";
-                        break;
-                }
-            }
-        });
+        if (savedInstanceState != null) {
+            progressBar.setVisibility(savedInstanceState.getInt("pbVisibility"));
+            uploadBtn.setVisibility(savedInstanceState.getInt("btnVisibility"));
+        }
 
     }
 
@@ -92,31 +71,19 @@ public class AddProductActivity extends AppCompatActivity {
         //Create a reference to upload, download, or delete a file
         StorageReference storageRef = storage.getReference().child(imageUri.getLastPathSegment());
         storageRef.putFile(imageUri)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Log.d("trace", "Image uploaded");
-                        //we should get a download link now
-                        getLinkForUploadedImage(storageRef.getDownloadUrl());
-                    }
+                .addOnSuccessListener(taskSnapshot -> {
+                    Log.d("trace", "Image uploaded");
+                    getLinkForUploadedImage(storageRef.getDownloadUrl());
                 });
     }
 
+    //Getting a download link after uploading a picture
     private void getLinkForUploadedImage(Task<Uri> task) {
         Log.d("trace", "Getting image download link");
-        task.addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Log.d("trace", "Image Link: " + uri);
-                uploadProduct(uri);
-            }
-        })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("trace", "Failed to get download image: " + e.toString());
-                    }
-                });
+        task.addOnSuccessListener(uri -> {
+            Log.d("trace", "Image Link: " + uri);
+            uploadProduct(uri);
+        });
     }
 
     private void uploadProduct(Uri imageUri) {
@@ -131,30 +98,32 @@ public class AddProductActivity extends AppCompatActivity {
         String price = priceET.getText().toString();
         String quantity = quantityET.getText().toString();
 
+        RadioGroup radioGroup = findViewById(R.id.rg);
+        RadioButton radioButton = findViewById(radioGroup.getCheckedRadioButtonId());
+
+        ProductModel productModel
+                = new ProductModel(title, desc, Double.parseDouble(price)
+                , Integer.parseInt(quantity), radioButton.getText().toString(), imageUri.toString());
+
         //https://firebase.google.com/docs/firestore/manage-data/add-data?authuser=0#custom_objects
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        /*ProductModel productModel
-                = new ProductModel(title, desc, Double.valueOf(price)
-                , Integer.valueOf(quantity), category, imageUri.toString());*/
-
-        //TODO: This is just for debugging you should use the above statement in production
-        ProductModel productModel
-                = new ProductModel(title, "desc", 2.5
-                , 100, "x", imageUri.toString());
 
         db
                 .collection("products")
                 .add(productModel)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        //Updating id to make delete and update functionality later
-                        documentReference.update("id", documentReference.getId());
-                        Toast.makeText(AddProductActivity.this, "Product Added", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
+                .addOnSuccessListener(documentReference -> {
+                    //Updating id to make delete and update functionality later
+                    documentReference.update("id", documentReference.getId());
+                    Toast.makeText(AddProductActivity.this, "Product Added", Toast.LENGTH_SHORT).show();
+                    finish();
                 });
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("pbVisibility", progressBar.getVisibility());
+        outState.putInt("btnVisibility", uploadBtn.getVisibility());
     }
 
 }

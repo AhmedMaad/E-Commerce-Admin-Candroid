@@ -10,7 +10,7 @@ public class ProductModel {
     private String image;
     private String id;
 
-    //Required Empty Constructor for reading
+    //Required Empty Constructor for reading from firebase
     public ProductModel(){}
 
     public ProductModel(String title, String description, double price

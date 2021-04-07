@@ -18,8 +18,8 @@ import java.util.ArrayList;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
-    private Activity activity;
-    private ArrayList<ProductModel> productModels;
+    private final Activity activity;
+    private final ArrayList<ProductModel> productModels;
     private OnItemClickListener onItemClickListener;
     private OnDeleteItemClickListener onDeleteItemClickListener;
 
@@ -49,9 +49,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = activity.getLayoutInflater();
         View view = inflater.inflate(R.layout.list_item, parent, false);
-        ProductViewHolder viewHolder =
-                new ProductViewHolder(view, onItemClickListener, onDeleteItemClickListener);
-        return viewHolder;
+        return new ProductViewHolder(view, onItemClickListener, onDeleteItemClickListener);
     }
 
     @Override
@@ -72,7 +70,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         public ImageView productIV;
         public TextView productTV;
-        //public MaterialCardView cardView;
         public ImageView deleteIV;
 
         public ProductViewHolder(@NonNull View itemView, OnItemClickListener clickListener
@@ -80,7 +77,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             super(itemView);
             productIV = itemView.findViewById(R.id.iv_product);
             productTV = itemView.findViewById(R.id.tv);
-            //cardView = itemView.findViewById(R.id.parent);
             deleteIV = itemView.findViewById(R.id.iv_delete);
 
             itemView.setOnClickListener(v -> {
@@ -88,13 +84,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 clickListener.onItemClick(position);
             });
 
-            deleteIV.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    int position = getAdapterPosition();
-                    deleteItemClickListener.onDeleteItemClick(position);
-                    return true;
-                }
+            deleteIV.setOnLongClickListener(v -> {
+                int position = getAdapterPosition();
+                deleteItemClickListener.onDeleteItemClick(position);
+                return true;
             });
 
         }

@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="8dp"
+    android:elevation="16dp"
+    app:cardCornerRadius="24dp">
 
-    <androidx.cardview.widget.CardView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="8dp"
-        android:elevation="16dp"
-        app:cardCornerRadius="24dp">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:padding="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="16dp"
             tools:context=".AddProductActivity">
 
             <com.google.android.material.textfield.TextInputLayout
@@ -50,7 +50,6 @@
                     android:minLines="3" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/container_price"
@@ -156,8 +155,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </ScrollView>
 
-    </androidx.cardview.widget.CardView>
-
-
-</ScrollView>
+</androidx.cardview.widget.CardView>
