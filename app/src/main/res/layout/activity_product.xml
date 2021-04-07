@@ -104,20 +104,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:text="Clothes" />
+                    android:text="@string/clothes" />
 
                 <RadioButton
                     android:id="@+id/rb_electronics"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:text="Electronics" />
+                    android:text="@string/electronics" />
 
                 <RadioButton
                     android:id="@+id/rb_furniture"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Furniture" />
+                    android:text="@string/furniture" />
 
             </RadioGroup>
 
@@ -137,11 +137,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:onClick="addProduct"
-                android:text="add product"
+                android:onClick="manageProduct"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ib_product" />
+                app:layout_constraintTop_toBottomOf="@id/ib_product"
+                tools:text="@string/add_product" />
 
             <ProgressBar
                 android:id="@+id/progress_bar"

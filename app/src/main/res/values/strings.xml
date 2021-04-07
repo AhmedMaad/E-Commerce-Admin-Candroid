@@ -5,4 +5,12 @@
     <string name="enter_product_price">Enter Price</string>
     <string name="enter_quantity">Enter Quantity</string>
     <string name="enter_product_description">Enter Product Description</string>
+    <string name="add_product">Add Product</string>
+    <string name="edit_product">Edit Product</string>
+    <string name="clothes">Clothes</string>
+    <string name="electronics">Electronics</string>
+    <string name="furniture">Furniture</string>
+    <string name="product_added">Product Added Successfully</string>
+    <string name="product_updated">Product Updated Successfully</string>
+    <string name="all_products">All Products</string>
 </resources>

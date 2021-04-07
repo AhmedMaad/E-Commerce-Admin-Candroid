@@ -16,38 +16,79 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
 
-public class AddProductActivity extends AppCompatActivity {
+public class EditProductActivity extends AppCompatActivity {
 
-    private Uri imageUri;
-    private ProgressBar progressBar;
-    private Button addBtn;
+    private ProductModel product;
+    private Button editBtn;
+    private TextInputEditText titleET;
+    private TextInputEditText descET;
+    private TextInputEditText priceET;
+    private TextInputEditText quantityET;
+    private RadioGroup radioGroup;
+    private Uri imageUri; //by default null
     private ImageButton productIB;
-
+    private ProgressBar progressBar;
+    private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
-        progressBar = findViewById(R.id.progress_bar);
-        addBtn = findViewById(R.id.btn_upload);
+
+        editBtn = findViewById(R.id.btn_upload);
+        titleET = findViewById(R.id.et_title);
+        descET = findViewById(R.id.et_description);
+        priceET = findViewById(R.id.et_price);
+        quantityET = findViewById(R.id.et_quantity);
+        radioGroup = findViewById(R.id.rg);
         productIB = findViewById(R.id.ib_product);
-        addBtn.setText(R.string.add_product);
+        progressBar = findViewById(R.id.progress_bar);
 
         if (savedInstanceState != null) {
             progressBar.setVisibility(savedInstanceState.getInt("pbVisibility"));
-            addBtn.setVisibility(savedInstanceState.getInt("btnVisibility"));
-            imageUri = savedInstanceState.getParcelable("image");
-            productIB.setImageURI(imageUri);
+            editBtn.setVisibility(savedInstanceState.getInt("btnVisibility"));
+            if (imageUri != null) {
+                imageUri = savedInstanceState.getParcelable("image");
+                productIB.setImageURI(imageUri);
+            }
+        } else
+            Glide.with(this).load(product.getImage()).into(productIB);
+
+
+        editBtn.setText(R.string.edit_product);
+        product = getIntent().getParcelableExtra("product");
+        id = product.getId();
+        titleET.setText(product.getTitle());
+        descET.setText(product.getDescription());
+        priceET.setText(String.valueOf(product.getPrice()));
+        quantityET.setText(String.valueOf(product.getQuantity()));
+
+        switch (product.getCategory()) {
+            case "Clothes":
+                radioGroup.check(R.id.rb_clothes);
+                break;
+
+            case "Electronics":
+                radioGroup.check(R.id.rb_electronics);
+                break;
+
+            case "Furniture":
+                radioGroup.check(R.id.rb_furniture);
+                break;
         }
 
     }
+
 
     public void choosePicture(View view) {
         Intent i = new Intent(Intent.ACTION_GET_CONTENT);
@@ -66,8 +107,11 @@ public class AddProductActivity extends AppCompatActivity {
 
     public void manageProduct(View view) {
         progressBar.setVisibility(View.VISIBLE);
-        addBtn.setVisibility(View.INVISIBLE);
-        uploadImage();
+        editBtn.setVisibility(View.INVISIBLE);
+        if (imageUri != null)
+            uploadImage();
+        else
+            uploadProduct(imageUri); //Image Uri in this case is null
     }
 
     private void uploadImage() {
@@ -93,32 +137,31 @@ public class AddProductActivity extends AppCompatActivity {
 
     private void uploadProduct(Uri imageUri) {
         Log.d("trace", "Uploading product...");
-        TextInputEditText titleET = findViewById(R.id.et_title);
-        TextInputEditText descET = findViewById(R.id.et_description);
-        TextInputEditText priceET = findViewById(R.id.et_price);
-        TextInputEditText quantityET = findViewById(R.id.et_quantity);
 
         String title = titleET.getText().toString();
         String desc = descET.getText().toString();
         String price = priceET.getText().toString();
         String quantity = quantityET.getText().toString();
 
-        RadioGroup radioGroup = findViewById(R.id.rg);
         RadioButton radioButton = findViewById(radioGroup.getCheckedRadioButtonId());
+        String imageLink;
+        if (imageUri != null)
+            imageLink = imageUri.toString();
+        else
+            imageLink = product.getImage();
 
-        ProductModel productModel
-                = new ProductModel(title, desc, Double.parseDouble(price)
-                , Integer.parseInt(quantity), radioButton.getText().toString(), imageUri.toString());
+        product = new ProductModel(title, desc, Double.parseDouble(price)
+                , Integer.parseInt(quantity), radioButton.getText().toString(), imageLink);
+        product.setId(id);
 
-        //https://firebase.google.com/docs/firestore/manage-data/add-data?authuser=0#custom_objects
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db
                 .collection("products")
-                .add(productModel)
-                .addOnSuccessListener(documentReference -> {
-                    //Updating id to make delete and update functionality later
-                    documentReference.update("id", documentReference.getId());
-                    Toast.makeText(AddProductActivity.this, R.string.product_added, Toast.LENGTH_SHORT).show();
+                .document(id)
+                .set(product)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(EditProductActivity.this, R.string.product_updated
+                            , Toast.LENGTH_SHORT).show();
                     finish();
                 });
     }
@@ -127,7 +170,7 @@ public class AddProductActivity extends AppCompatActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("pbVisibility", progressBar.getVisibility());
-        outState.putInt("btnVisibility", addBtn.getVisibility());
+        outState.putInt("btnVisibility", editBtn.getVisibility());
         outState.putParcelable("image", imageUri);
     }
 

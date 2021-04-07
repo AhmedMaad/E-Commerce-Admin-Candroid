@@ -9,8 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BuyFromCandroidAdmin">
-        <activity android:name=".AddProductActivity"/>
-        <activity android:name=".HomeActivity">
+        <activity
+            android:name=".EditProductActivity"
+            android:label="@string/edit_product" />
+        <activity
+            android:name=".AddProductActivity"
+            android:label="@string/add_product" />
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/all_products">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

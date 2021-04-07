@@ -19,7 +19,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:onClick="openAddProductActivity"
-        android:src="@drawable/ic_baseline_add_shopping_cart_24"
+        android:src="@drawable/ic_shopping"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

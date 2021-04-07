@@ -24,11 +24,11 @@ public class HomeActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         viewModel.getProductsLiveData().observe(this, documentSnapshots -> {
-                viewModel.getProductModels().clear();
-                for (int i = 0; i < documentSnapshots.size(); ++i) {
-                    ProductModel productModel = documentSnapshots.get(i).toObject(ProductModel.class);
-                    viewModel.addProduct(productModel);
-                }
+            viewModel.getProductModels().clear();
+            for (int i = 0; i < documentSnapshots.size(); ++i) {
+                ProductModel productModel = documentSnapshots.get(i).toObject(ProductModel.class);
+                viewModel.addProduct(productModel);
+            }
             showProducts();
         });
 
@@ -38,7 +38,9 @@ public class HomeActivity extends AppCompatActivity {
         ProductAdapter adapter = new ProductAdapter(HomeActivity.this, viewModel.getProductModels());
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(position -> {
-            //Navigate to edit activity
+            Intent i = new Intent(HomeActivity.this, EditProductActivity.class);
+            i.putExtra("product", viewModel.getProductModels().get(position));
+            startActivity(i);
         });
 
         adapter.setOnDeleteItemClickListener(position -> {
