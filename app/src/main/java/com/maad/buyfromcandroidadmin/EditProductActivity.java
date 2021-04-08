@@ -60,10 +60,12 @@ public class EditProductActivity extends AppCompatActivity {
             progressBar.setVisibility(savedInstanceState.getInt("pbVisibility"));
             editBtn.setVisibility(savedInstanceState.getInt("btnVisibility"));
             imageUri = savedInstanceState.getParcelable("image");
+            Log.d("trace", "image uri: " + imageUri);
             productIB.setImageURI(imageUri);
-        } else
+        }
+
+        if (imageUri == null)
             Glide.with(this).load(product.getImage()).into(productIB);
-        
 
         editBtn.setText(R.string.edit_product);
         id = product.getId();
