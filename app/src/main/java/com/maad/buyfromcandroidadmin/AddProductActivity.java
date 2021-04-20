@@ -22,6 +22,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoField;
+import java.util.Calendar;
+
 
 public class AddProductActivity extends AppCompatActivity {
 
@@ -74,7 +78,19 @@ public class AddProductActivity extends AppCompatActivity {
         //Accessing Cloud Storage bucket by creating an instance of FirebaseStorage
         FirebaseStorage storage = FirebaseStorage.getInstance();
         //Create a reference to upload, download, or delete a file
-        StorageReference storageRef = storage.getReference().child(imageUri.getLastPathSegment());
+
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        int month = now.get(Calendar.MONTH) + 1; // Note: zero based!
+        int day = now.get(Calendar.DAY_OF_MONTH);
+        int hour = now.get(Calendar.HOUR_OF_DAY);
+        int minute = now.get(Calendar.MINUTE);
+        int second = now.get(Calendar.SECOND);
+        int millis = now.get(Calendar.MILLISECOND);
+        String imageName = "image: " + day + '-' + month + '-' + year + ' ' + hour + ':' + minute
+                + ':' + second + '.' + millis;
+
+        StorageReference storageRef = storage.getReference().child(imageName);
         storageRef.putFile(imageUri)
                 .addOnSuccessListener(taskSnapshot -> {
                     Log.d("trace", "Image uploaded");

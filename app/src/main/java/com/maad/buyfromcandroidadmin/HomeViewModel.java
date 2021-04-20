@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModel;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +55,11 @@ public class HomeViewModel extends ViewModel {
         });
     }
 
-    public void deleteProduct(String id) {
+    public void deleteProduct(String id, String image) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference photoRef = storage.getReferenceFromUrl(image);
+        photoRef.delete();
+
         db
                 .collection("products")
                 .document(id)

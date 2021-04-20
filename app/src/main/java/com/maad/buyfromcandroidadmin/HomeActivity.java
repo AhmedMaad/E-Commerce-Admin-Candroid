@@ -46,7 +46,8 @@ public class HomeActivity extends AppCompatActivity {
         adapter.setOnDeleteItemClickListener(position -> {
             String id = viewModel.getProductModels().get(position).getId();
             Log.d("trace", "Document ID to delete: " + id);
-            viewModel.deleteProduct(id);
+            String image = viewModel.getProductModels().get(position).getImage();
+            viewModel.deleteProduct(id, image);
             Toast.makeText(HomeActivity.this, "Product Deleted", Toast.LENGTH_SHORT).show();
         });
 
